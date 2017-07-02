@@ -32,12 +32,8 @@ gulp.task('default', ['clean'], function() {
 });
 
 gulp.task('usemin',['jshint'], function () {
-	  gulp.src('./app/menu.html')
-	   .pipe(gulp.dest('./dist/'));
-	  gulp.src('./app/dishdetail.html')
-	   .pipe(gulp.dest('./dist/'));
-	  gulp.src('./app/contactus.html')
-	   .pipe(gulp.dest('./dist/'));
+	  gulp.src('./app/views/*.html')
+	   .pipe(gulp.dest('./dist/views/'));
 	  return gulp.src('./app/index.html')
 	      .pipe(usemin({
 	        css:[minifycss(),rev()],
