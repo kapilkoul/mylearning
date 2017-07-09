@@ -32,9 +32,9 @@ gulp.task('default', ['clean'], function() {
 });
 
 gulp.task('usemin',['jshint'], function () {
-	  gulp.src('./app/views/*.html')
-	   .pipe(gulp.dest('./dist/views/'));
-	  return gulp.src('./app/index.html')
+	  //gulp.src('./app/views/*.html')
+	   //.pipe(gulp.dest('./dist/views/'));
+	  return gulp.src('./app/**/*.html')
 	      .pipe(usemin({
 	        css:[minifycss(),rev()],
 	        js: [ngannotate(),uglify(),rev()]
