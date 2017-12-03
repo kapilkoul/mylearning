@@ -37,14 +37,14 @@ exports.verifyOrdinaryUser = function (req, res, next) {
 
 exports.verifyAdmin = function (req, res, next) {
     // check header or url parameters or post parameters for token
-    var isAdmin = req.decoded._doc.admin;
+    var isAdmin = req.decoded.admin;
 
     // decode token
     if (isAdmin) {
-        console.log("Verified is admin user! " + req.decoded._doc);
+        console.log("Verified is admin user! ");
         return next();
     } else {
-        console.log("Not an admin user! " + req.decoded._doc);
+        console.log("Not an admin user! ");
         // if there is no token
         // return an error
         var err = new Error('Not an admin user!');

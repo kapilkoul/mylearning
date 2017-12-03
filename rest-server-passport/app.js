@@ -55,6 +55,13 @@ app.use(passport.initialize());
 //Set the public folder to be available in the application routes
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, x-access-token, Content-Type, Accept, Authorization");
+  next();
+});
+
 //Set routers for individual paths
 app.use('/', index);
 app.use('/users', users);

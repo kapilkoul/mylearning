@@ -13,26 +13,26 @@ favoriteRouter.route('/')
 
 .get(Verify.verifyOrdinaryUser, function(req,res,next){
     //Find the favorites posted by the logged in user
-    Favorites.find({postedBy:req.decoded._doc._id})
+    Favorites.find({postedBy:req.decoded._id})
         .populate('postedBy')
         .populate('dishes')
         .exec(function(err, favorite) {
-            if(err) throw err;
+            if(err) return next(err);
             res.json(favorite);
         });
 })
 
 .post(Verify.verifyOrdinaryUser, function(req, res, next){
     //Find the favorites object
-    Favorites.find({postedBy:req.decoded._doc._id}, function(err, favorites) {
-        if(err) throw err;
+    Favorites.find({postedBy:req.decoded._id}, function(err, favorites) {
+        if(err) return next(err);
         if(!favorites || favorites.length == 0) {
             //Create a new favorite
             Favorites.create({
-                postedBy:req.decoded._doc._id, 
+                postedBy:req.decoded._id, 
                 dishes: [req.body._id]
             }, function(err,favorite) {
-                if(err) throw err;
+                if(err) return next(err);
                 res.json(favorite);
             });
         } else {
@@ -42,7 +42,7 @@ favoriteRouter.route('/')
                 console.log('Adding the dish to the favorites...');
                 favorites[0].dishes.push(req.body._id);
                 favorites[0].save(function(err, resp) {
-                    if(err) throw err;
+                    if(err) return next(err);
                     res.json(resp);
                 });
             } else {
@@ -56,8 +56,8 @@ favoriteRouter.route('/')
 
 .delete(Verify.verifyOrdinaryUser, function(req, res, next){
     //Remove the entire favorite object posted by the user
-    Favorites.remove({postedBy:req.decoded._doc._id}, function(err, resp) {
-        if(err) throw err;
+    Favorites.remove({postedBy:req.decoded._id}, function(err, resp) {
+        if(err) return next(err);
         res.json(resp);
     });
 });
@@ -65,8 +65,8 @@ favoriteRouter.route('/')
 favoriteRouter.route('/:dishId')
 
 .delete(Verify.verifyOrdinaryUser, function(req, res, next){
-    Favorites.find({postedBy:req.decoded._doc._id}, function(err, favorites) {
-        if(err) throw err;
+    Favorites.find({postedBy:req.decoded._id}, function(err, favorites) {
+        if(err) return next(err);
         //If the favorites not set return null
         if(!favorites || favorites.length == 0) {
             var err = new Error('The favorites have not been set for this user!');
@@ -85,7 +85,7 @@ favoriteRouter.route('/:dishId')
         favorites[0].dishes.splice(dishIndex, 1); //remove dish
         //Save the updated favorite object
         favorites[0].save(function(err, resp) {
-            if(err) throw err;
+            if(err) return next(err);
             res.json(resp);
         });
     });

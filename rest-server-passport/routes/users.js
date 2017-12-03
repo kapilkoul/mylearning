@@ -8,7 +8,7 @@ var Verify = require('./verify');
 /* GET users listing. */
 router.get('/', Verify.verifyOrdinaryUser, Verify.verifyAdmin, function(req, res, next) {
     User.find({}, function(err, user) {
-        if(err) throw err;
+        if(err) return next(err);
         res.json(user);
     });
 });
@@ -45,7 +45,8 @@ router.post('/login', function(req, res, next) {
             
             console.log('User in users: ', user);
             
-            var token = Verify.getToken(user);
+            //Use a subset of user object to retrieve token
+            var token = Verify.getToken({"username":user.username,"_id":user._id,"admin": user.admin});
             
             res.status(200).json({
                 status: 'Login successful!',
@@ -69,8 +70,9 @@ router.get('/facebook/callback', function(req, res, next) {
             return res.status(401).json({err:info});
         }
         req.logIn(user, function(err) {
-            if(err) return res.sattus(500).json({err: 'Couldnot log in user'});
-            var token = Verify.getToken(user);
+            if(err) return res.status(500).json({err: 'Couldnot log in user'});
+            //Get token based on a subset of user information
+            var token = Verify.getToken({"username":user.username,"_id":user._id,"admin": user.admin});
             res.status(200).json({
                 status: 'Login successful',
                 success: true,

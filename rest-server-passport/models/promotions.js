@@ -11,6 +11,7 @@ var promotionSchema = new Schema({
     image: {type: String, required: true},
     label: {type:String, default: ''},
     price: {type:Currency, required: true},
+    featured: {type: Boolean, default:false},
     description: {type: String, required: true}
 }, {timestamps: true});
 

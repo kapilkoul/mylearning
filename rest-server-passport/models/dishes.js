@@ -20,10 +20,7 @@ var dishSchema = new Schema({
     label: {type:String, default: ''},
     price: {type:Currency, required: true},
     description: {type: String, required: true},
-    featured: {
-        type: Boolean,
-        default:false
-    },
+    featured: {type: Boolean, default:false},
     comments: [commentsSchema]
 }, {timestamps: true});
 

@@ -46,7 +46,9 @@ angular.module('conFusion', ['ionic', 'ngCordova', 'conFusion.controllers', 'con
     });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $httpProvider) {
+    $httpProvider.defaults.useXDomain = true; 
+    delete $httpProvider.defaults.headers.common["X-Requested-With"];
   $stateProvider
 
     .state('app', {
@@ -64,13 +66,13 @@ angular.module('conFusion', ['ionic', 'ngCordova', 'conFusion.controllers', 'con
           controller: 'IndexController',
           resolve: {
               dish: ['menuFactory', function(menuFactory) {
-                return menuFactory.get({id:0});
+                  return menuFactory.query({featured:true});
               }],
               promotion: ['promotionFactory', function(promotionFactory) {
-                return promotionFactory.get({id:0});
+                return promotionFactory.query({featured:true});
               }],
               leader: ['corporateFactory', function(corporateFactory) {
-                return corporateFactory.get({id:3});
+                return corporateFactory.query({featured:true});
               }]
           }
       }
@@ -110,7 +112,7 @@ angular.module('conFusion', ['ionic', 'ngCordova', 'conFusion.controllers', 'con
                     return menuFactory.query();
                 }],
                 favorites: ['favoriteFactory', function(favoriteFactory) {
-                    return favoriteFactory.getFavorites();
+                    return favoriteFactory.query();
                 }]
             } //end resolve
           } //end maincontent
