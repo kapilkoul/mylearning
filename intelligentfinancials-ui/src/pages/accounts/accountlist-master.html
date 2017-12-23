@@ -1,0 +1,40 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{ 'ACCOUNTLIST_MASTER_TITLE' | translate }}</ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="addAccount()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="accountsReady">
+    <ion-list-header>
+      Your account list
+    </ion-list-header>
+    <ion-item-sliding *ngFor="let identifier of keys()">
+
+       <button ion-item (click)="openAccount(currentAccounts.get(identifier))">
+            <ion-avatar item-start>
+              <img [src]="currentAccounts.get(identifier).profilePic" />
+            </ion-avatar>
+            <h2>{{currentAccounts.get(identifier).vendor}}</h2>
+            <p>{{currentAccounts.get(identifier).type}} Account# {{identifier}}</p>
+            
+            <h2 *ngIf="isPositive(identifier)" item-end style="font-size:150%" ion-text color="secondary">{{getBalance(identifier) | currency:'INR':true}}</h2>
+           <h2 *ngIf="!isPositive(identifier)" item-end style="font-size:150%" ion-text color="danger">{{getBalance(identifier) | currency:'INR':true}}</h2>
+      </button>   
+
+      <ion-item-options>
+        <button ion-button color="danger" (click)="deleteAccount(currentAccounts.get(identifier))">
+          {{ 'DELETE_BUTTON' | translate }}
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>

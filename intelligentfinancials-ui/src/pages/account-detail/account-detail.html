@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{ currentAccount.vendor }} {{currentAccount.type}}#{{currentAccount.identifier}}</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="addTransaction()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div class="account-profile" text-center #profilePic [style.background-image]="'url(' + currentAccount.profilePic + ')'">
+  </div>
+  <div>
+      <h2 *ngIf="isPositive()" ion-text color="danger">Current Balance : {{accountBalance | currency:'INR':true}}</h2>
+    <h2 *ngIf='isPositive()==false' ion-text color="danger">Current Balance : {{accountBalance | currency:'INR':true}}</h2>
+  </div>
+  <ion-list *ngIf="accountDetailReady">
+    <ion-item-sliding *ngFor="let transaction of currentAccount.transactions | orderBy:'date'">
+      <button ion-item>
+        <h2 item-start>{{transaction.date | date: 'dd-MMM-yyyy H:mm'}}</h2>
+        <p>{{transaction.accountFrom}} -> {{transaction.accountTo}}</p>
+        <p>{{transaction.text}}</p>
+        <h2 *ngIf="currentAccount.identifier === transaction.accountTo" item-end style="font-size:150%" ion-text color="secondary">{{transaction.amount | currency:'INR':true}}</h2>
+        <h2 *ngIf="currentAccount.identifier === transaction.accountFrom" item-end style="font-size:150%" ion-text color="danger">{{-transaction.amount | currency:'INR':true}}</h2>
+      </button>
+
+      <ion-item-options>
+        <button ion-button color="danger">
+          {{ 'DELETE_BUTTON' | translate }}
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>

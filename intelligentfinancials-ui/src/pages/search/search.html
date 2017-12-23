@@ -1,0 +1,22 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{ 'SEARCH_TITLE' | translate }}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-searchbar (ionInput)="getItems($event)" placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}"></ion-searchbar>
+  <ion-list>
+    <button ion-item (click)="openAccount(account)" *ngFor="let account of currentItems">
+      <ion-avatar item-start>
+        <img [src]="account.profilePic" />
+      </ion-avatar>
+      <h2>{{account.vendor}}</h2>
+      <p>{{account.type}}</p>
+      <ion-note item-end>{{account.identifier}}</ion-note>
+    </button>
+  </ion-list>
+</ion-content>
