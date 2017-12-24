@@ -127,7 +127,7 @@ export class AccountListMasterPage {
     
     isPositive(identifier) {
         let val:string = ""+this.currentBalances.get(this.currentAccounts.get(identifier)["_id"]);
-        return val.startsWith("-");
+        return !val.startsWith("-");
     }
     
     getBalance(identifier) {
