@@ -1,6 +1,6 @@
 {
   "name": "Intelligent Financials",
-  "app_id": "",
+  "app_id": "2441bf4a",
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}
